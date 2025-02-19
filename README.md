@@ -1,5 +1,7 @@
 # Clean Next.js + Sanity app
 
+_Test Change_
+
 This template includes a [Next.js](https://nextjs.org/) app with a [Sanity Studio](https://www.sanity.io/) – an open-source React application that connects to your Sanity project’s hosted dataset. The Studio is configured locally and can then be deployed for content collaboration.
 
 ![Screenshot of Sanity Studio using Presentation Tool to do Visual Editing](https://cdn.sanity.io/images/fkfgfb3d/production/8f626d30c5c41a5d2d75f899645beada2b82826b-3248x2112.png?auto=format)
