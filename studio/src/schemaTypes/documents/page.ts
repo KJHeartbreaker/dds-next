@@ -1,62 +1,59 @@
-import {defineField, defineType} from 'sanity'
-import {DocumentIcon} from '@sanity/icons'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
-/**
- * Page schema.  Define and edit the fields for the 'page' content type.
- * Learn more: https://www.sanity.io/docs/schema-types
- */
-
-export const page = defineType({
+export default defineType({
+  type: 'document',
   name: 'page',
   title: 'Page',
-  type: 'document',
-  icon: DocumentIcon,
+  fieldsets: [
+    {
+      title: 'Visibility',
+      name: 'visibility',
+      options: {collapsible: true, collapsed: false},
+    },
+  ],
+  initialValue: {includeInSitemap: true},
   fields: [
-    defineField({
-      name: 'name',
-      title: 'Name',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-
+    defineField({name: 'title', type: 'string', title: 'Title'}),
     defineField({
       name: 'slug',
-      title: 'Slug',
       type: 'slug',
-      validation: (Rule) => Rule.required(),
-      options: {
-        source: 'name',
-        maxLength: 96,
-      },
+      title: 'Slug',
+      options: {source: 'title', maxLength: 96},
     }),
     defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'subheading',
-      title: 'Subheading',
-      type: 'string',
-    }),
-    defineField({
-      name: 'pageBuilder',
-      title: 'Page builder',
+      name: 'content',
       type: 'array',
-      of: [{type: 'callToAction'}, {type: 'infoSection'}],
-      options: {
-        insertMenu: {
-          // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
-          views: [
-            {
-              name: 'grid',
-              previewImageUrl: (schemaTypeName) =>
-                `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
-            },
-          ],
-        },
-      },
+      title: 'Page sections',
+      of: [
+        defineArrayMember({type: 'hero'}),
+        defineArrayMember({type: 'grid'}),
+        defineArrayMember({type: 'equipmentGrid'}),
+        defineArrayMember({type: 'customComponentContainer'}),
+      ],
+    }),
+    defineField({
+      name: 'useSiteTitle',
+      type: 'boolean',
+      title: 'Use site title?',
+      fieldset: 'visibility',
+    }),
+    defineField({
+      name: 'includeInSitemap',
+      type: 'boolean',
+      title: 'Include in sitemap',
+      fieldset: 'visibility',
+    }),
+    defineField({
+      name: 'disallowRobots',
+      type: 'boolean',
+      title: 'Disallow in robots.txt',
+      fieldset: 'visibility',
+    }),
+    defineField({
+      name: 'openGraph',
+      type: 'openGraph',
+      title: 'Open graph',
+      fieldset: 'visibility',
     }),
   ],
 })
