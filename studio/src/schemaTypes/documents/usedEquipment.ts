@@ -1,5 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import PriceInput from '../../helpers/PriceInput'
+// import PriceInput from '../../helpers/PriceInput'
 
 export default defineType({
   name: 'used',

@@ -1,6 +1,4 @@
-import {person} from './documents/person'
-import {page} from './documents/OG_page'
-import {post} from './documents/post'
+import {page} from './documents/page'
 import {callToAction} from './objects/callToAction'
 import {infoSection} from './objects/infoSection'
 import {settings} from './singletons/settings'
@@ -30,8 +28,6 @@ export const schemaTypes = [
   // Documents
   navigation,
   page,
-  post,
-  person,
   siteSettings,
   usedEquipment,
   // Objects

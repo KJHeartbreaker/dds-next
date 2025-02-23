@@ -68,10 +68,10 @@ export default defineType({
           type: 'cta',
         },
         {
-          title: 'Image',
-          name: 'image',
+          // title: 'Image',
+          // name: 'image',
           type: 'mainImage',
-          // options: { hotspot: true },
+          options: {hotspot: true},
         },
       ],
     }),
