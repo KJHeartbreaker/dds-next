@@ -45,7 +45,7 @@ export default function Header() {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 256 256"
-              className="text-[#000] h-7 sm:h-10"
+              className="text-black h-7 sm:h-10"
               fill="currentColor"
             >
               <g>
@@ -71,7 +71,7 @@ export default function Header() {
                 </Link>
               </li>
 
-              <li className="sm:before:w-[1px] sm:before:bg-gray-100 before:block flex sm:gap-4 md:gap-6">
+              <li className="sm:before:w-px sm:before:bg-gray-100 before:block flex sm:gap-4 md:gap-6">
                 <Link
                   className="rounded-full flex gap-2 items-center bg-black hover:bg-red-500 focus:bg-cyan-500 p-1 sm:py-3 sm:px-6 text-white transition-colors duration-200"
                   href="https://github.com/sanity-io/sanity-template-nextjs-clean"
