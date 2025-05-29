@@ -3,7 +3,7 @@
 	"private": true,
 	"description": "Next.js + Sanity: A Powerful Website Starter with Real-time Visual Editing",
 	"scripts": {
-		"dev": "yarn run dev:next & yarn run dev:studio",
+		"dev": "yarn run dev:studio & yarn run dev:next",
 		"dev:next": "yarn workspace nextjs-app dev",
 		"dev:studio": "yarn workspace studio dev"
 	},
