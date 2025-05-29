@@ -1,0 +1,4 @@
+# Ignoring generated files
+dist
+node_modules
+.sanity
