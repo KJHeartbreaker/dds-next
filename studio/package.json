@@ -30,13 +30,13 @@
 		"rxjs": "^7.8.2",
 		"sanity": "^3.90.0",
 		"sanity-plugin-asset-source-unsplash": "^3.0.3",
-		"sonner": "^2.0.3",
+		"sonner": "^2.0.4",
 		"styled-components": "^6.1.18"
 	},
 	"devDependencies": {
 		"@sanity/eslint-config-studio": "^5.0.2",
 		"@types/react": "^19.1.6",
-		"eslint": "^9.27.0",
+		"eslint": "^9.28.0",
 		"prettier": "^3.5.3",
 		"typescript": "^5.8.3"
 	}
