@@ -37,7 +37,7 @@ function renderSections(pageBuilderSections: PageBuilderSection[], page: GetPage
 			data-sanity={dataAttr({
 				id: page._id,
 				type: page._type,
-				path: `pageBuilder`,
+				path: `content`,
 			}).toString()}
 		>
 			{pageBuilderSections.map((block: any, index: number) => (

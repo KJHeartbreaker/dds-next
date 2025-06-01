@@ -31,11 +31,9 @@ export const getPageQuery = defineQuery(`
   *[_type == 'page' && slug.current == $slug][0]{
     _id,
     _type,
-    name,
+    title,
     slug,
-    heading,
-    subheading,
-    "pageBuilder": pageBuilder[]{
+    content[]{
       ...,
       _type == "callToAction" => {
         ${linkFields},
@@ -50,6 +48,10 @@ export const getPageQuery = defineQuery(`
         }
       },
     },
+    useSiteTitle,
+    includeInSitemap,
+    disallowRobots,
+    openGraph
   }
 `);
 
@@ -94,4 +96,40 @@ export const postPagesSlugs = defineQuery(`
 export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
+`);
+
+export const getHomePageQuery = defineQuery(`
+  *[_type == 'page' && _id == "homepage"][0]{
+    _id,
+    _type,
+    title,
+    slug,
+    content[]{
+      ...,
+      _type == "callToAction" => {
+        ${linkFields},
+      },
+      _type == "infoSection" => {
+        content[]{
+          ...,
+          markDefs[]{
+            ...,
+            ${linkReference}
+          }
+        }
+      },
+    },
+    useSiteTitle,
+    includeInSitemap,
+    disallowRobots,
+    openGraph
+  }
+`);
+
+export const getAllPagesQuery = defineQuery(`
+  *[_type == 'page' && defined(slug.current)] | order(title asc) {
+    _id,
+    title,
+    "slug": slug.current
+  }
 `);
