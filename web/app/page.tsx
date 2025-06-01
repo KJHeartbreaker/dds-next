@@ -7,23 +7,8 @@ import { getHomePageQuery } from '@/sanity/lib/queries';
 import { GetPageQueryResult } from '@/sanity.types';
 import { PageOnboarding } from '@/app/components/Onboarding';
 
-export async function generateHomepageMetadata(): Promise<Metadata> {
-	const { data: page } = await sanityFetch({
-		query: getHomePageQuery,
-		// Metadata should never contain stega
-		stega: false,
-	});
-
-	return {
-		title: page?.title,
-		description: page?.title,
-	} satisfies Metadata;
-}
-
 export default async function Homepage() {
 	const { data: page } = await sanityFetch({ query: getHomePageQuery });
-
-	console.log('homepage', page);
 
 	if (!page?._id) {
 		return (
@@ -49,7 +34,6 @@ export default async function Homepage() {
 					</div>
 				</div>
 			</div>
-			<PageBuilderPage page={page as GetPageQueryResult} />
 		</div>
 	);
 }
