@@ -2,7 +2,7 @@
 
 _Test Change_
 
-This template includes a [Next.js](https://nextjs.org/) app with a [Sanity Studio](https://www.sanity.io/) – an open-source React application that connects to your Sanity project’s hosted dataset. The Studio is configured locally and can then be deployed for content collaboration.
+This template includes a [Next.js](https://nextjs.org/) app with a [Sanity Studio](https://www.sanity.io/) – an open-source React application that connects to your Sanity project's hosted dataset. The Studio is configured locally and can then be deployed for content collaboration.
 
 ![Screenshot of Sanity Studio using Presentation Tool to do Visual Editing](https://cdn.sanity.io/images/fkfgfb3d/production/8f626d30c5c41a5d2d75f899645beada2b82826b-3248x2112.png?auto=format)
 
@@ -75,7 +75,7 @@ The schema for the `Post` document type is defined in the `studio/src/schemaType
 
 #### 1. Deploy Sanity Studio
 
-Your Next.js frontend (`/nextjs-app`) and Sanity Studio (`/studio`) are still only running on your local computer. It's time to deploy and get it into the hands of other content editors.
+Your Next.js frontend (`/web`) and Sanity Studio (`/studio`) are still only running on your local computer. It's time to deploy and get it into the hands of other content editors.
 
 Back in your Studio directory (`/studio`), run the following command to deploy your Sanity Studio.
 
@@ -94,7 +94,7 @@ You have the freedom to deploy your Next.js app to your hosting provider of choi
 
 #### 3. Invite a collaborator
 
-Now that you’ve deployed your Next.js application and Sanity Studio, you can optionally invite a collaborator to your Studio. Open up [Manage](https://www.sanity.io/manage), select your project and click "Invite project members"
+Now that you've deployed your Next.js application and Sanity Studio, you can optionally invite a collaborator to your Studio. Open up [Manage](https://www.sanity.io/manage), select your project and click "Invite project members"
 
 They will be able to access the deployed Studio, where you can collaborate together on creating content.
 
