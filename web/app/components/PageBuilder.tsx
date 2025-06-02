@@ -5,12 +5,26 @@ import { useOptimistic } from 'next-sanity/hooks';
 import Link from 'next/link';
 
 import BlockRenderer from '@/app/components/BlockRenderer';
-import { GetPageQueryResult } from '@/sanity.types';
+import { GetPageQueryResult, Slug } from '@/sanity.types';
 import { dataAttr } from '@/sanity/lib/utils';
 import { studioUrl } from '@/sanity/lib/api';
 
 type PageBuilderPageProps = {
-	page: GetPageQueryResult;
+	page: {
+		_id: string;
+		_type: 'page';
+		title: string | null;
+		slug: Slug;
+		content: Array<{
+			_key: string;
+			_type: string;
+			[key: string]: any;
+		}> | null;
+		useSiteTitle: boolean | null;
+		includeInSitemap: boolean | null;
+		disallowRobots: boolean | null;
+		openGraph: any | null;
+	} | null;
 };
 
 type PageBuilderSection = {
@@ -21,14 +35,17 @@ type PageBuilderSection = {
 type PageData = {
 	_id: string;
 	_type: string;
-	pageBuilder?: PageBuilderSection[];
+	content?: PageBuilderSection[];
 };
 
 /**
- * The PageBuilder component is used to render the blocks from the `pageBuilder` field in the Page type in your Sanity Studio.
+ * The PageBuilder component is used to render the blocks from the `content` field in the Page type in your Sanity Studio.
  */
 
-function renderSections(pageBuilderSections: PageBuilderSection[], page: GetPageQueryResult) {
+function renderSections(
+	pageBuilderSections: PageBuilderSection[],
+	page: PageBuilderPageProps['page']
+) {
 	if (!page) {
 		return null;
 	}
@@ -53,7 +70,7 @@ function renderSections(pageBuilderSections: PageBuilderSection[], page: GetPage
 	);
 }
 
-function renderEmptyState(page: GetPageQueryResult) {
+function renderEmptyState(page: PageBuilderPageProps['page']) {
 	if (!page) {
 		return null;
 	}
@@ -80,5 +97,9 @@ function renderEmptyState(page: GetPageQueryResult) {
 }
 
 export default function PageBuilder({ page }: PageBuilderPageProps) {
-	return null;
+	if (!page?.content?.length) {
+		return renderEmptyState(page);
+	}
+
+	return renderSections(page.content, page);
 }
