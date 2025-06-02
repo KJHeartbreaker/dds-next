@@ -19,6 +19,7 @@ export type SanityImage = {
 		left: number;
 		right: number;
 	};
+	alt?: string;
 };
 
 // Common CTA type used across components
