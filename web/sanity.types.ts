@@ -554,42 +554,45 @@ export type SettingsQueryResult = {
 } | null;
 // Variable: getPageQuery
 // Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    title,    slug,    content[]{      ...,      _type == "hero" => {        ...,        illustration {          ...,          asset->        }      },      _type == "callToAction" => {          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      },      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },    },    useSiteTitle,    includeInSitemap,    disallowRobots,    openGraph  }
+export type PageContent = Array<{
+	_key: string;
+	_type: string;
+	heading?: string;
+	text?: string;
+	buttonText?: string;
+	link?: {
+		_type: 'link';
+		linkType?: 'href' | 'page' | 'post';
+		href?: string;
+		page?: string;
+		post?: string;
+		openInNewTab?: boolean;
+	};
+	illustration?: {
+		asset?: {
+			_ref: string;
+			_type: 'reference';
+		};
+		hotspot?: SanityImageHotspot;
+		crop?: SanityImageCrop;
+		alt?: string;
+		_type: 'image';
+	};
+	[key: string]: any;
+}> | null;
+
 export type GetPageQueryResult = {
 	_id: string;
 	_type: 'page';
 	title: string | null;
 	slug: Slug;
-	content: Array<{
-		_key: string;
-		_type: string;
-		heading?: string;
-		text?: string;
-		buttonText?: string;
-		link?: {
-			_type: 'link';
-			linkType?: 'href' | 'page' | 'post';
-			href?: string;
-			page?: string;
-			post?: string;
-			openInNewTab?: boolean;
-		};
-		illustration?: {
-			asset?: {
-				_ref: string;
-				_type: 'reference';
-			};
-			hotspot?: SanityImageHotspot;
-			crop?: SanityImageCrop;
-			alt?: string;
-			_type: 'image';
-		};
-		[key: string]: any;
-	}> | null;
+	content: PageContent;
 	useSiteTitle: boolean | null;
 	includeInSitemap: boolean | null;
 	disallowRobots: boolean | null;
 	openGraph: any | null;
 } | null;
+
 // Variable: sitemapData
 // Query: *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {    "slug": slug.current,    _type,    _updatedAt,  }
 export type SitemapDataResult = Array<
@@ -755,13 +758,13 @@ export type PagesSlugsResult = Array<{
 export type GetHomePageQueryResult = {
 	_id: string;
 	_type: 'page';
-	title: null;
+	title: string | null;
 	slug: Slug;
-	content: null;
-	useSiteTitle: null;
-	includeInSitemap: null;
-	disallowRobots: null;
-	openGraph: null;
+	content: PageContent;
+	useSiteTitle: boolean | null;
+	includeInSitemap: boolean | null;
+	disallowRobots: boolean | null;
+	openGraph: any | null;
 } | null;
 // Variable: getAllPagesQuery
 // Query: *[_type == 'page' && defined(slug.current)] | order(title asc) {    _id,    title,    "slug": slug.current  }
