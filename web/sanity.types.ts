@@ -562,6 +562,27 @@ export type GetPageQueryResult = {
 	content: Array<{
 		_key: string;
 		_type: string;
+		heading?: string;
+		text?: string;
+		buttonText?: string;
+		link?: {
+			_type: 'link';
+			linkType?: 'href' | 'page' | 'post';
+			href?: string;
+			page?: string;
+			post?: string;
+			openInNewTab?: boolean;
+		};
+		illustration?: {
+			asset?: {
+				_ref: string;
+				_type: 'reference';
+			};
+			hotspot?: SanityImageHotspot;
+			crop?: SanityImageCrop;
+			alt?: string;
+			_type: 'image';
+		};
 		[key: string]: any;
 	}> | null;
 	useSiteTitle: boolean | null;
