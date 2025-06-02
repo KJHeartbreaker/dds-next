@@ -176,14 +176,14 @@ export type Page = {
 	slug: Slug;
 	heading: string;
 	subheading?: string;
-	pageBuilder?: Array<
-		| ({
-				_key: string;
-		  } & CallToAction)
-		| ({
-				_key: string;
-		  } & InfoSection)
-	>;
+	// pageBuilder?: Array<
+	// 	| ({
+	// 			_key: string;
+	// 	  } & CallToAction)
+	// 	| ({
+	// 			_key: string;
+	// 	  } & InfoSection)
+	// >;
 };
 
 export type Post = {

@@ -37,7 +37,7 @@ export default function BlockRenderer({ block, index, pageId, pageType }: BlockP
 				data-sanity={dataAttr({
 					id: pageId,
 					type: pageType,
-					path: `pageBuilder[_key=="${block._key}"]`,
+					path: 'content',
 				}).toString()}
 			>
 				{React.createElement(Blocks[block._type], {

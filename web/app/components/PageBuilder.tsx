@@ -80,35 +80,5 @@ function renderEmptyState(page: GetPageQueryResult) {
 }
 
 export default function PageBuilder({ page }: PageBuilderPageProps) {
-	const pageBuilderSections = useOptimistic<
-		PageBuilderSection[] | undefined,
-		SanityDocument<PageData>
-	>(page?.pageBuilder || [], (currentSections, action) => {
-		// The action contains updated document data from Sanity
-		// when someone makes an edit in the Studio
-
-		// If the edit was to a different document, ignore it
-		if (action.id !== page?._id) {
-			return currentSections;
-		}
-
-		// If there are sections in the updated document, use them
-		if (action.document.pageBuilder) {
-			// Reconcile References. https://www.sanity.io/docs/enabling-drag-and-drop#ffe728eea8c1
-			return action.document.pageBuilder.map(
-				(section) => currentSections?.find((s) => s._key === section?._key) || section
-			);
-		}
-
-		// Otherwise keep the current sections
-		return currentSections;
-	});
-
-	if (!page) {
-		return renderEmptyState(page);
-	}
-
-	return pageBuilderSections && pageBuilderSections.length > 0
-		? renderSections(pageBuilderSections, page)
-		: renderEmptyState(page);
+	return null;
 }
