@@ -1,6 +1,7 @@
 import React from 'react';
 
-import Cta from '@/app/components/Cta';
+import CallToAction from '@/app/components/CallToAction';
+import Hero from '@/app/components/Hero';
 import Info from '@/app/components/InfoSection';
 import { dataAttr } from '@/sanity/lib/utils';
 
@@ -20,8 +21,9 @@ type BlockProps = {
 	pageType: string;
 };
 
-const Blocks: BlocksType = {
-	callToAction: Cta,
+const blocks: BlocksType = {
+	hero: Hero,
+	cta: CallToAction,
 	infoSection: Info,
 };
 
@@ -29,32 +31,26 @@ const Blocks: BlocksType = {
  * Used by the <PageBuilder>, this component renders a the component that matches the block type.
  */
 export default function BlockRenderer({ block, index, pageId, pageType }: BlockProps) {
-	// Block does exist
-	if (typeof Blocks[block._type] !== 'undefined') {
-		return (
-			<div
-				key={block._key}
-				data-sanity={dataAttr({
-					id: pageId,
-					type: pageType,
-					path: 'content',
-				}).toString()}
-			>
-				{React.createElement(Blocks[block._type], {
-					key: block._key,
-					block: block,
-					index: index,
-				})}
-			</div>
-		);
+	const Component = blocks[block._type];
+
+	if (!Component) {
+		return null;
 	}
-	// Block doesn't exist yet
-	return React.createElement(
-		() => (
-			<div className="w-full bg-gray-100 text-center text-gray-500 p-20 rounded">
-				A &ldquo;{block._type}&rdquo; block hasn&apos;t been created
-			</div>
-		),
-		{ key: block._key }
+
+	return (
+		<div
+			key={block._key}
+			data-sanity={dataAttr({
+				id: pageId,
+				type: pageType,
+				path: 'content',
+			}).toString()}
+		>
+			{React.createElement(Component, {
+				key: block._key,
+				block: block,
+				index: index,
+			})}
+		</div>
 	);
 }

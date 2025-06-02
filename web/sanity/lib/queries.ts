@@ -35,6 +35,13 @@ export const getPageQuery = defineQuery(`
     slug,
     content[]{
       ...,
+      _type == "hero" => {
+        ...,
+        illustration {
+          ...,
+          asset->
+        }
+      },
       _type == "callToAction" => {
         ${linkFields},
       },
@@ -106,6 +113,13 @@ export const getHomePageQuery = defineQuery(`
     slug,
     content[]{
       ...,
+      _type == "hero" => {
+        ...,
+        illustration {
+          ...,
+          asset->
+        }
+      },
       _type == "callToAction" => {
         ${linkFields},
       },

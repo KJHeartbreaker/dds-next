@@ -21,11 +21,11 @@ type PageBuilderSection = {
 type PageData = {
 	_id: string;
 	_type: string;
-	pageBuilder?: PageBuilderSection[];
+	content?: PageBuilderSection[];
 };
 
 /**
- * The PageBuilder component is used to render the blocks from the `pageBuilder` field in the Page type in your Sanity Studio.
+ * The PageBuilder component is used to render the blocks from the `content` field in the Page type in your Sanity Studio.
  */
 
 function renderSections(pageBuilderSections: PageBuilderSection[], page: GetPageQueryResult) {
@@ -80,5 +80,9 @@ function renderEmptyState(page: GetPageQueryResult) {
 }
 
 export default function PageBuilder({ page }: PageBuilderPageProps) {
-	return null;
+	if (!page?.content?.length) {
+		return renderEmptyState(page);
+	}
+
+	return renderSections(page.content, page);
 }

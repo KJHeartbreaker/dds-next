@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Head from 'next/head';
 
-import PageBuilderPage from '@/app/components/PageBuilder';
+import PageBuilder from '@/app/components/PageBuilder';
 import { sanityFetch } from '@/sanity/lib/live';
 import { getHomePageQuery } from '@/sanity/lib/queries';
 import { GetPageQueryResult } from '@/sanity.types';
@@ -34,6 +34,7 @@ export default async function Homepage() {
 					</div>
 				</div>
 			</div>
+			<PageBuilder page={page} />
 		</div>
 	);
 }

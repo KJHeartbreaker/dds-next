@@ -15,6 +15,20 @@ export default {
 			colors: {
 				black: '#0d0e12',
 				white: '#fff',
+				brown: {
+					100: '#f5f0eb',
+					200: '#e6d9cc',
+				},
+				darkBlue: {
+					100: '#e6e9f0',
+					200: '#c2c8d9',
+				},
+				tan: {
+					100: '#f5f0eb',
+				},
+				lightBlue: {
+					100: '#e6f0f5',
+				},
 				cyan: {
 					50: '#e7fefe',
 					100: '#c5fcfc',
