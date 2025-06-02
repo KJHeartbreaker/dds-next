@@ -8,82 +8,63 @@
  *
  */
 
-import { PortableText, type PortableTextComponents, type PortableTextBlock } from 'next-sanity';
+import { PortableText as BasePortableText, PortableTextComponents } from '@portabletext/react';
+import CallToAction from './CallToAction';
+import { SanityCta } from '../types/sanity';
 
-import ResolvedLink from '@/app/components/ResolvedLink';
-
-export default function CustomPortableText({
-	className,
-	value,
-}: {
-	className?: string;
-	value: PortableTextBlock[];
-}) {
-	const components: PortableTextComponents = {
-		block: {
-			h1: ({ children, value }) => (
-				// Add an anchor to the h1
-				<h1 className="group relative">
+const components: PortableTextComponents = {
+	block: {
+		h1: (props) => <h1 className="text-4xl font-bold mb-4">{props.children}</h1>,
+		h2: (props) => <h2 className="text-3xl font-bold mb-3">{props.children}</h2>,
+		h3: (props) => <h3 className="text-2xl font-bold mb-2">{props.children}</h3>,
+		normal: (props) => <p className="mb-4">{props.children}</p>,
+		blockquote: (props) => (
+			<blockquote className="border-l-4 border-gray-300 pl-4 italic">
+				{props.children}
+			</blockquote>
+		),
+	},
+	marks: {
+		strong: (props) => <strong className="font-bold">{props.children}</strong>,
+		em: (props) => <em className="italic">{props.children}</em>,
+		code: (props) => (
+			<code className="bg-gray-100 rounded px-1 py-0.5 font-mono text-sm">
+				{props.children}
+			</code>
+		),
+		link: ({ value, children }) => {
+			const target = value?.blank ? '_blank' : undefined;
+			return (
+				<a
+					href={value?.href}
+					target={target}
+					rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+					className="text-blue-600 hover:text-blue-800 underline"
+				>
 					{children}
-					<a
-						href={`#${value?._key}`}
-						className="absolute left-0 top-0 bottom-0 -ml-6 flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-4 w-4"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-							/>
-						</svg>
-					</a>
-				</h1>
-			),
-			h2: ({ children, value }) => {
-				// Add an anchor to the h2
-				return (
-					<h2 className="group relative">
-						{children}
-						<a
-							href={`#${value?._key}`}
-							className="absolute left-0 top-0 bottom-0 -ml-6 flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-4 w-4"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-								/>
-							</svg>
-						</a>
-					</h2>
-				);
-			},
+				</a>
+			);
 		},
-		marks: {
-			link: ({ children, value: link }) => {
-				return <ResolvedLink link={link}>{children}</ResolvedLink>;
-			},
+	},
+	list: {
+		bullet: (props) => <ul className="list-disc list-inside mb-4">{props.children}</ul>,
+		number: (props) => <ol className="list-decimal list-inside mb-4">{props.children}</ol>,
+	},
+	types: {
+		cta: ({ value }) => {
+			if (!value || !value.title) {
+				return null;
+			}
+			return <CallToAction block={value} index={0} />;
 		},
-	};
+		mainImage: ({ value }) => <div>Image: {value.alt}</div>,
+	},
+};
 
-	return (
-		<div className={['prose prose-a:text-red-500', className].filter(Boolean).join(' ')}>
-			<PortableText components={components} value={value} />
-		</div>
-	);
+interface PortableTextProps {
+	value: any[];
+}
+
+export default function PortableText({ value }: PortableTextProps) {
+	return <BasePortableText value={value} components={components} />;
 }

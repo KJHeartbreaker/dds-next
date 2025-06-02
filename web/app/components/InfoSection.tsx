@@ -22,7 +22,7 @@ export default function CTA({ block }: InfoProps) {
 				)}
 				<div className="mt-4">
 					{block?.content?.length && (
-						<PortableText className="" value={block.content as PortableTextBlock[]} />
+						<PortableText value={block.content as PortableTextBlock[]} />
 					)}
 				</div>
 			</div>

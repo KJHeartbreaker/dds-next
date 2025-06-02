@@ -3,6 +3,7 @@ import React from 'react';
 import CallToAction from '@/app/components/CallToAction';
 import Hero from '@/app/components/Hero';
 import Info from '@/app/components/InfoSection';
+import { Grid } from '@/app/components/Grid';
 import { dataAttr } from '@/sanity/lib/utils';
 
 type BlocksType = {
@@ -12,6 +13,7 @@ type BlocksType = {
 type BlockType = {
 	_type: string;
 	_key: string;
+	[key: string]: any;
 };
 
 type BlockProps = {
@@ -25,6 +27,7 @@ const blocks: BlocksType = {
 	hero: Hero,
 	cta: CallToAction,
 	infoSection: Info,
+	grid: Grid,
 };
 
 /**
@@ -46,11 +49,7 @@ export default function BlockRenderer({ block, index, pageId, pageType }: BlockP
 				path: 'content',
 			}).toString()}
 		>
-			{React.createElement(Component, {
-				key: block._key,
-				block: block,
-				index: index,
-			})}
+			<Component block={block} index={index} />
 		</div>
 	);
 }
