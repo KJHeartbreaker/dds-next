@@ -557,13 +557,17 @@ export type SettingsQueryResult = {
 export type GetPageQueryResult = {
 	_id: string;
 	_type: 'page';
-	title: null;
+	title: string | null;
 	slug: Slug;
-	content: null;
-	useSiteTitle: null;
-	includeInSitemap: null;
-	disallowRobots: null;
-	openGraph: null;
+	content: Array<{
+		_key: string;
+		_type: string;
+		[key: string]: any;
+	}> | null;
+	useSiteTitle: boolean | null;
+	includeInSitemap: boolean | null;
+	disallowRobots: boolean | null;
+	openGraph: any | null;
 } | null;
 // Variable: sitemapData
 // Query: *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {    "slug": slug.current,    _type,    _updatedAt,  }
