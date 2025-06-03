@@ -16,7 +16,7 @@ async function verifyRecaptcha(token: string) {
 	});
 
 	const data = await response.json();
-	return data.success && data.score >= 0.5;
+	return data.success && data.score >= MIN_RECAPTCHA_SCORE;
 }
 
 export async function POST(request: Request) {
