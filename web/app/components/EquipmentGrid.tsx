@@ -4,6 +4,14 @@ import { urlForImage } from '@/sanity/lib/utils';
 import { SanityImage } from '@/app/types/sanity';
 import { dataAttr } from '@/sanity/lib/utils';
 
+// Helper function to sanitize text for stega
+function sanitizeForStega(text: string): string {
+	return text
+		.replace(/[\u200B-\u200D\uFEFF]/g, '') // Remove zero-width spaces and joiners
+		.replace(/[^\x20-\x7E]/g, '') // Remove non-printable characters
+		.trim();
+}
+
 type EquipmentReference = {
 	equipment: {
 		_id: string;
@@ -44,12 +52,15 @@ function getExcerpt(text: string): string {
 
 function getTaglineText(tagline: EquipmentReference['equipment']['tagline']): string {
 	if (!tagline?.portableTextBlock?.[0]?.children?.[0]?.text) return '';
-	return tagline.portableTextBlock[0].children[0].text;
+	return sanitizeForStega(tagline.portableTextBlock[0].children[0].text);
 }
 
 export default function EquipmentGrid({ block }: EquipmentGridProps) {
 	const { title, content = [], disabled } = block;
 	if (disabled || !content?.length) return null;
+
+	// Sanitize the title for stega
+	const sanitizedTitle = title ? sanitizeForStega(title) : '';
 
 	return (
 		<div
@@ -69,7 +80,7 @@ export default function EquipmentGrid({ block }: EquipmentGridProps) {
 						path: 'title',
 					})}
 				>
-					{title}
+					{sanitizedTitle}
 				</h2>
 			)}
 			<div
@@ -90,6 +101,7 @@ export default function EquipmentGrid({ block }: EquipmentGridProps) {
 						urlForImage(image)?.width?.(800)?.height?.(800)?.fit?.('crop')?.url?.();
 					const taglineText = getTaglineText(equipment.tagline);
 					const excerpt = getExcerpt(taglineText);
+					const sanitizedTitle = sanitizeForStega(equipment.title);
 
 					return (
 						<Link
@@ -106,7 +118,7 @@ export default function EquipmentGrid({ block }: EquipmentGridProps) {
 								{imageUrl ? (
 									<Image
 										src={imageUrl}
-										alt={equipment.title}
+										alt={sanitizedTitle}
 										fill
 										className="object-cover transition-transform duration-300 group-hover:scale-105"
 										sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -119,7 +131,7 @@ export default function EquipmentGrid({ block }: EquipmentGridProps) {
 							</div>
 							<div className="mt-4">
 								<h3 className="text-xl font-semibold group-hover:text-blue-600 transition-colors">
-									{equipment.title}
+									{sanitizedTitle}
 								</h3>
 								{taglineText && (
 									<p className="mt-2 text-gray-600 line-clamp-3 text-sm">
