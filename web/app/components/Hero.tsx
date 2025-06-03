@@ -91,19 +91,18 @@ export default function Hero({ block, index }: HeroProps) {
 						/>
 					)}
 				</div>
-				{!block.singleColumn && block.illustration && (
+				{!block.singleColumn && block.illustration && block.illustration.asset && (
 					<div className="relative aspect-video">
 						<Image
-							src={urlForImage(block.illustration)
-								.width(800)
-								.height(450)
+							className="absolute inset-0 h-full w-full object-cover"
+							src={urlForImage(block.illustration as any)
+								.width(2880)
+								.height(1600)
 								.fit('crop')
 								.url()}
-							alt={block.heading || 'Hero image'}
-							fill
-							sizes="(max-width: 768px) 100vw, 50vw"
-							className="object-cover rounded-lg"
+							alt={block.illustration.alt || ''}
 							priority
+							fill
 						/>
 					</div>
 				)}

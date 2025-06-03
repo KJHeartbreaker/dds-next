@@ -4,8 +4,34 @@ import { PortableTextBlock } from '@portabletext/types';
 export type SanityImage = {
 	_type: 'image';
 	asset: {
-		_ref: string;
-		_type: 'reference';
+		_ref?: string;
+		_type?: 'reference';
+		url?: string;
+		_id?: string;
+		originalId?: string;
+		rev?: string;
+		assetId?: string;
+		extension?: string;
+		metadata?: {
+			_type: 'sanity.imageMetadata';
+			blurHash?: string;
+			dimensions?: {
+				_type: 'sanity.imageDimensions';
+				aspectRatio: number;
+				height: number;
+				width: number;
+			};
+			hasAlpha?: boolean;
+			isOpaque?: boolean;
+			lqip?: string;
+			palette?: any;
+		};
+		mimeType?: string;
+		originalFilename?: string;
+		path?: string;
+		sha1hash?: string;
+		size?: number;
+		uploadId?: string;
 	};
 	hotspot?: {
 		x: number;

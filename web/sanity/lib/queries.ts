@@ -54,6 +54,25 @@ export const getPageQuery = defineQuery(`
           }
         }
       },
+      _type == "equipmentGrid" => {
+        ...,
+        content[]{
+          ...,
+          equipment->{
+            _id,
+            _type,
+            title,
+            slug,
+            tagline,
+            images[] {
+              _type,
+              asset->,
+              alt,
+              caption
+            }
+          }
+        }
+      }
     },
     useSiteTitle,
     includeInSitemap,
@@ -146,4 +165,28 @@ export const getAllPagesQuery = defineQuery(`
     title,
     "slug": slug.current
   }
+`);
+
+export const getUsedEquipmentQuery = defineQuery(`
+  *[_type == 'used' && slug.current == $slug][0] {
+    _id,
+    _type,
+    title,
+    slug,
+    surplus,
+    tagline,
+    price,
+    itemNumber,
+    images[] {
+      _type,
+      asset->,
+      alt,
+      caption
+    }
+  }
+`);
+
+export const usedEquipmentSlugs = defineQuery(`
+  *[_type == "used" && defined(slug.current)]
+  {"slug": slug.current}
 `);

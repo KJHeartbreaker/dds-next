@@ -3,7 +3,7 @@ import { defineArrayMember, defineField, defineType } from 'sanity';
 
 export default defineType({
 	name: 'equipmentGrid',
-	type: 'document',
+	type: 'object',
 	title: 'Equipment Grid',
 	icon,
 	fields: [

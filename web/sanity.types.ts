@@ -553,7 +553,7 @@ export type SettingsQueryResult = {
 	};
 } | null;
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    title,    slug,    content[]{      ...,      _type == "hero" => {        ...,        illustration {          ...,          asset->        }      },      _type == "callToAction" => {          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      },      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },    },    useSiteTitle,    includeInSitemap,    disallowRobots,    openGraph  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    title,    slug,    content[]{      ...,      _type == "hero" => {        ...,        illustration {          ...,          asset->        }      },      _type == "callToAction" => {          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      },      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },      _type == "equipmentGrid" => {        ...,        content[]{          ...,          equipment->{            _id,            _type,            title,            slug,            tagline,            images[] {              _type,              asset->,              alt,              caption            }          }        }      }    },    useSiteTitle,    includeInSitemap,    disallowRobots,    openGraph  }
 export type GetPageQueryResult = {
 	_id: string;
 	_type: 'page';
@@ -745,13 +745,19 @@ export type GetAllPagesQueryResult = Array<{
 	title: null;
 	slug: string;
 }>;
+// Variable: getUsedEquipmentQuery
+// Query: *[_type == 'used' && slug.current == $slug][0] {    _id,    _type,    title,    slug,    surplus,    tagline,    price,    itemNumber,    images[] {      _type,      asset->,      alt,      caption    }  }
+export type GetUsedEquipmentQueryResult = null;
+// Variable: usedEquipmentSlugs
+// Query: *[_type == "used" && defined(slug.current)]  {"slug": slug.current}
+export type UsedEquipmentSlugsResult = Array<never>;
 
 // Query TypeMap
 import '@sanity/client';
 declare module '@sanity/client' {
 	interface SanityQueries {
 		'*[_type == "settings"][0]': SettingsQueryResult;
-		'\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    content[]{\n      ...,\n      _type == "hero" => {\n        ...,\n        illustration {\n          ...,\n          asset->\n        }\n      },\n      _type == "callToAction" => {\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n,\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n    useSiteTitle,\n    includeInSitemap,\n    disallowRobots,\n    openGraph\n  }\n': GetPageQueryResult;
+		'\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    content[]{\n      ...,\n      _type == "hero" => {\n        ...,\n        illustration {\n          ...,\n          asset->\n        }\n      },\n      _type == "callToAction" => {\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n,\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n      _type == "equipmentGrid" => {\n        ...,\n        content[]{\n          ...,\n          equipment->{\n            _id,\n            _type,\n            title,\n            slug,\n            tagline,\n            images[] {\n              _type,\n              asset->,\n              alt,\n              caption\n            }\n          }\n        }\n      }\n    },\n    useSiteTitle,\n    includeInSitemap,\n    disallowRobots,\n    openGraph\n  }\n': GetPageQueryResult;
 		'\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult;
 		'\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': AllPostsQueryResult;
 		'\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': MorePostsQueryResult;
@@ -760,5 +766,7 @@ declare module '@sanity/client' {
 		'\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult;
 		'\n  *[_type == \'page\' && _id == "homepage"][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    content[]{\n      ...,\n      _type == "hero" => {\n        ...,\n        illustration {\n          ...,\n          asset->\n        }\n      },\n      _type == "callToAction" => {\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n,\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n    useSiteTitle,\n    includeInSitemap,\n    disallowRobots,\n    openGraph\n  }\n': GetHomePageQueryResult;
 		'\n  *[_type == \'page\' && defined(slug.current)] | order(title asc) {\n    _id,\n    title,\n    "slug": slug.current\n  }\n': GetAllPagesQueryResult;
+		"\n  *[_type == 'used' && slug.current == $slug][0] {\n    _id,\n    _type,\n    title,\n    slug,\n    surplus,\n    tagline,\n    price,\n    itemNumber,\n    images[] {\n      _type,\n      asset->,\n      alt,\n      caption\n    }\n  }\n": GetUsedEquipmentQueryResult;
+		'\n  *[_type == "used" && defined(slug.current)]\n  {"slug": slug.current}\n': UsedEquipmentSlugsResult;
 	}
 }

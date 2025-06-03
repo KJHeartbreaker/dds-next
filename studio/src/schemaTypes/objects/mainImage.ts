@@ -22,6 +22,13 @@ export default defineType({
 				Rule.error('You have to fill out the alternative text.').required(),
 		}),
 	],
+	validation: (Rule) =>
+		Rule.custom((fields) => {
+			if (!fields?.asset?._ref) {
+				return 'Image is required';
+			}
+			return true;
+		}),
 	preview: {
 		select: {
 			title: 'caption',

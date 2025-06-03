@@ -30,6 +30,7 @@
 		"rxjs": "^7.8.2",
 		"sanity": "^3.90.0",
 		"sanity-plugin-asset-source-unsplash": "^3.0.3",
+		"sanity-plugin-media": "^3.0.2",
 		"sonner": "^2.0.4",
 		"styled-components": "^6.1.18"
 	},

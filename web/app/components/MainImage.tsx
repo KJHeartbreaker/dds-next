@@ -14,7 +14,11 @@ export function MainImage({ value }: MainImageProps) {
 		return null;
 	}
 
-	const imageUrl = urlForImage(image).width(800).height(450).fit('crop').url();
+	const imageUrl = urlForImage(image as any)
+		.width(800)
+		.height(450)
+		.fit('crop')
+		.url();
 
 	return (
 		<div className="relative aspect-video w-full">
