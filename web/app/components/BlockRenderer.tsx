@@ -4,6 +4,7 @@ import CallToAction from '@/app/components/CallToAction';
 import Hero from '@/app/components/Hero';
 import Info from '@/app/components/InfoSection';
 import { Grid } from '@/app/components/Grid';
+import EquipmentGrid from '@/app/components/EquipmentGrid';
 import { dataAttr } from '@/sanity/lib/utils';
 
 type BlocksType = {
@@ -28,6 +29,7 @@ const blocks: BlocksType = {
 	cta: CallToAction,
 	infoSection: Info,
 	grid: Grid,
+	equipmentGrid: EquipmentGrid,
 };
 
 /**

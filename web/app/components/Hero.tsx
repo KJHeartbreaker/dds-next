@@ -91,22 +91,24 @@ export default function Hero({ block, index }: HeroProps) {
 						/>
 					)}
 				</div>
-				{!block.singleColumn && block.illustration && (
-					<div className="relative aspect-video">
-						<Image
-							src={urlForImage(block.illustration)
-								.width(800)
-								.height(450)
-								.fit('crop')
-								.url()}
-							alt={block.heading || 'Hero image'}
-							fill
-							sizes="(max-width: 768px) 100vw, 50vw"
-							className="object-cover rounded-lg"
-							priority
-						/>
-					</div>
-				)}
+				{!block.singleColumn &&
+					block.illustration &&
+					typeof block.illustration?.asset?._type === 'string' && (
+						<div className="relative aspect-video">
+							<Image
+								src={urlForImage(block.illustration as any)
+									.width(800)
+									.height(450)
+									.fit('crop')
+									.url()}
+								alt={block.heading || 'Hero image'}
+								fill
+								sizes="(max-width: 768px) 100vw, 50vw"
+								className="object-cover rounded-lg"
+								priority
+							/>
+						</div>
+					)}
 			</div>
 		</section>
 	);

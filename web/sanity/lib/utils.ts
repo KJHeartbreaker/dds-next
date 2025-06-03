@@ -2,24 +2,65 @@ import createImageUrlBuilder from '@sanity/image-url';
 import { Link } from '@/sanity.types';
 import { dataset, projectId, studioUrl } from '@/sanity/lib/api';
 import { createDataAttribute, CreateDataAttributeProps } from 'next-sanity';
+import type { FitMode } from '@sanity/image-url/lib/types/types';
 
 const imageBuilder = createImageUrlBuilder({
 	projectId: projectId || '',
 	dataset: dataset || '',
 });
 
-export const urlForImage = (source: any) => {
-	// Ensure that source image contains a valid reference
-	if (!source?.asset?._ref) {
+type ImageUrlBuilder = {
+	url: () => string;
+	width?: (width: number) => ImageUrlBuilder;
+	height?: (height: number) => ImageUrlBuilder;
+	fit?: (fit: FitMode) => ImageUrlBuilder;
+	auto?: (auto: 'format') => ImageUrlBuilder;
+};
+
+export const urlForImage = (source: any): ImageUrlBuilder | undefined => {
+	// Handle both asset reference formats
+	if (!source?.asset) {
 		return undefined;
 	}
 
+	// If the asset has a direct URL, use it
+	if (source.asset.url) {
+		const url = source.asset.url;
+		return {
+			url: () => url,
+			width: () => ({
+				url: () => url,
+				width: () => ({
+					url: () => url,
+					height: () => ({ url: () => url, fit: () => ({ url: () => url }) }),
+				}),
+			}),
+			height: () => ({
+				url: () => url,
+				width: () => ({
+					url: () => url,
+					height: () => ({ url: () => url, fit: () => ({ url: () => url }) }),
+				}),
+			}),
+			fit: () => ({
+				url: () => url,
+				width: () => ({
+					url: () => url,
+					height: () => ({ url: () => url, fit: () => ({ url: () => url }) }),
+				}),
+			}),
+		};
+	}
+
+	// Otherwise use the Sanity image builder
 	return imageBuilder?.image(source).auto('format').fit('max');
 };
 
 export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
 	if (!image) return;
-	const url = urlForImage(image)?.width(1200).height(627).fit('crop').url();
+	const imageUrl = urlForImage(image);
+	if (!imageUrl) return;
+	const url = imageUrl?.width?.(1200)?.height?.(627)?.fit?.('crop')?.url?.();
 	if (!url) return;
 	return { url, alt: image?.alt as string, width, height };
 }
