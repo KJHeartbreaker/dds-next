@@ -94,9 +94,14 @@ type DataAttributeConfig = CreateDataAttributeProps &
 	Required<Pick<CreateDataAttributeProps, 'id' | 'type' | 'path'>>;
 
 export function dataAttr(config: DataAttributeConfig) {
-	return createDataAttribute({
+	const dataAttribute = createDataAttribute({
 		projectId,
 		dataset,
 		baseUrl: studioUrl,
 	}).combine(config);
+
+	// Encode the data attribute to handle special characters
+	return {
+		'data-sanity': encodeURIComponent(dataAttribute.toString()),
+	};
 }

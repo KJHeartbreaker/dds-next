@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { sanityFetch } from '@/sanity/lib/live';
 import { getUsedEquipmentQuery, usedEquipmentSlugs } from '@/sanity/lib/queries';
-import PortableText from '@/app/components/PortableText';
-import ImageCarousel from '@/app/components/ImageCarousel';
+import EquipmentClient from './EquipmentClient';
 import { SanityImage } from '@/app/types/sanity';
 
 type Equipment = {
@@ -66,31 +65,5 @@ export default async function EquipmentPage({ params }) {
 		);
 	}
 
-	return (
-		<div className="container">
-			<div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-8">
-				<div className="flex flex-col items-center justify-center p-5">
-					<h1 className="text-4xl font-bold mb-6">{equipment.title}</h1>
-					{equipment.itemNumber && (
-						<h3 className="text-xl mb-4">Item Number: {equipment.itemNumber}</h3>
-					)}
-					{equipment.tagline && (
-						<div className="prose max-w-none mb-6">
-							<PortableText value={equipment.tagline.portableTextBlock} />
-						</div>
-					)}
-					<div className="text-2xl font-semibold mb-6">
-						<em className="not-italic">
-							{equipment.price
-								? `$${(equipment.price / 100).toLocaleString()}`
-								: 'Call for pricing'}
-						</em>
-					</div>
-				</div>
-				<div className="p-5">
-					<ImageCarousel images={equipment.images} title={equipment.title} />
-				</div>
-			</div>
-		</div>
-	);
+	return <EquipmentClient equipment={equipment} />;
 }
