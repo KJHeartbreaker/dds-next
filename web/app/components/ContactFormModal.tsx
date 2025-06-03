@@ -53,6 +53,7 @@ export default function ContactFormModal({ isOpen, onClose, productInfo }: Conta
 			role="dialog"
 			aria-modal="true"
 			className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+		>
 			<div
 				ref={modalRef}
 				className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
