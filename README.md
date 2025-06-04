@@ -53,9 +53,7 @@ Open the Studio running locally in your browser on [http://localhost:3333](http:
 
 #### 1. Publish your first document
 
-The template comes pre-defined with a schema containing `Page`, `Post`, `Person`, and `Settings` document types.
-
-From the Studio, click "+ Create" and select the `Post` document type. Go ahead and create and publish the document.
+The template comes pre-defined with a schema containing `Page`, and `Settings` document types.
 
 Your content should now appear in your Next.js app ([http://localhost:3000](http://localhost:3000)) as well as in the Studio on the "Presentation" Tab
 
