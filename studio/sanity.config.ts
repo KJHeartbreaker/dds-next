@@ -89,24 +89,6 @@ export default defineConfig({
 							],
 						}),
 					}),
-					post: defineLocations({
-						select: {
-							title: 'title',
-							slug: 'slug.current',
-						},
-						resolve: (doc) => ({
-							locations: [
-								{
-									title: doc?.title || 'Untitled',
-									href: resolveHref('post', doc?.slug)!,
-								},
-								{
-									title: 'Home',
-									href: '/',
-								} satisfies DocumentLocation,
-							].filter(Boolean) as DocumentLocation[],
-						}),
-					}),
 				},
 			},
 		}),
