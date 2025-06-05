@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -40,33 +40,18 @@ export default function MobileMenu({
 	setOpen,
 	pendingNavigation,
 	setPendingNavigation,
+	navMenuItems,
+	isLoading,
 }: {
 	open: boolean;
 	setOpen: (open: boolean) => void;
 	pendingNavigation: string | null;
 	setPendingNavigation: (href: string | null) => void;
+	navMenuItems: NavMenuItem[];
+	isLoading: boolean;
 }) {
-	const [navMenuItems, setNavMenuItems] = useState<NavMenuItem[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
 	const menuRef = useRef<HTMLDivElement>(null);
 	const pathname = usePathname();
-
-	// Fetch nav data dynamically
-	useEffect(() => {
-		async function fetchNavigation() {
-			try {
-				const response = await fetch('/api/navigation/primary');
-				if (!response.ok) throw new Error('Failed to fetch navigation');
-				const { data } = await response.json();
-				setNavMenuItems(data?.navMenuItems || []);
-			} catch (error) {
-				console.error('Error fetching navigation:', error);
-			} finally {
-				setIsLoading(false);
-			}
-		}
-		fetchNavigation();
-	}, []);
 
 	// Close on ESC
 	useEffect(() => {

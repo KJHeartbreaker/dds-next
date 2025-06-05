@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
 type NavMenuItem = {
 	_type: 'cta';
@@ -40,27 +39,14 @@ function getHref(item: NavMenuItem): string {
 	return '#';
 }
 
-export default function PrimaryNavigation() {
-	const [navigation, setNavigation] = useState<Navigation | null>(null);
-	const [isLoading, setIsLoading] = useState(true);
+export default function PrimaryNavigation({
+	navigation,
+	isLoading,
+}: {
+	navigation: Navigation | null;
+	isLoading: boolean;
+}) {
 	const pathname = usePathname();
-
-	useEffect(() => {
-		async function fetchNavigation() {
-			try {
-				const response = await fetch('/api/navigation/primary');
-				if (!response.ok) throw new Error('Failed to fetch navigation');
-				const { data } = await response.json();
-				setNavigation(data);
-			} catch (error) {
-				console.error('Error fetching navigation:', error);
-			} finally {
-				setIsLoading(false);
-			}
-		}
-
-		fetchNavigation();
-	}, []);
 
 	if (isLoading) {
 		return <div className="h-6 w-48 bg-gray-200 animate-pulse rounded" />;

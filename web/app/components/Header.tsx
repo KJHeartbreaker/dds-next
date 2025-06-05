@@ -6,10 +6,51 @@ import Logo from './Logo';
 import PrimaryNavigation from './PrimaryNavigation';
 import MobileMenu from './MobileMenu';
 
+type NavMenuItem = {
+	_type: 'cta';
+	_key: string;
+	title: string;
+	kind?: 'button' | 'link';
+	landingPageRoute?: {
+		slug: string;
+	};
+	link?: string;
+	fileDownload?: {
+		asset: {
+			url: string;
+		};
+	};
+};
+
+type Navigation = {
+	_id: string;
+	_type: 'nav';
+	title: string;
+	navMenuItems: NavMenuItem[];
+};
+
 export default function Header() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [pendingNavigation, setPendingNavigation] = useState<string | null>(null);
+	const [navigation, setNavigation] = useState<Navigation | null>(null);
+	const [isLoading, setIsLoading] = useState(true);
 	const pathname = usePathname();
+
+	useEffect(() => {
+		async function fetchNavigation() {
+			try {
+				const response = await fetch('/api/navigation/primary');
+				if (!response.ok) throw new Error('Failed to fetch navigation');
+				const { data } = await response.json();
+				setNavigation(data);
+			} catch (error) {
+				console.error('Error fetching navigation:', error);
+			} finally {
+				setIsLoading(false);
+			}
+		}
+		fetchNavigation();
+	}, []);
 
 	useEffect(() => {
 		if (!mobileMenuOpen || !pendingNavigation) return;
@@ -27,13 +68,17 @@ export default function Header() {
 						setPendingNavigation={setPendingNavigation}
 						mobileMenuOpen={mobileMenuOpen}
 					/>
-					<PrimaryNavigation />
-					<MobileMenu
-						open={mobileMenuOpen}
-						setOpen={setMobileMenuOpen}
-						pendingNavigation={pendingNavigation}
-						setPendingNavigation={setPendingNavigation}
-					/>
+					<PrimaryNavigation navigation={navigation} isLoading={isLoading} />
+					<div className="sm:hidden">
+						<MobileMenu
+							open={mobileMenuOpen}
+							setOpen={setMobileMenuOpen}
+							pendingNavigation={pendingNavigation}
+							setPendingNavigation={setPendingNavigation}
+							navMenuItems={navigation?.navMenuItems || []}
+							isLoading={isLoading}
+						/>
+					</div>
 				</div>
 			</div>
 		</header>
