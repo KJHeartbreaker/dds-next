@@ -26,8 +26,10 @@ export async function GET() {
       }`
 		);
 
-		// Log the response to debug
-		console.log('Navigation response:', JSON.stringify(navigation, null, 2));
+		// Log the response to debug in non-production environments
+		if (process.env.NODE_ENV !== 'production') {
+			console.log('Navigation response:', JSON.stringify(navigation, null, 2));
+		}
 
 		return NextResponse.json({ data: navigation });
 	} catch (error) {
