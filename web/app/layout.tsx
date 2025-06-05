@@ -17,6 +17,7 @@ import { settingsQuery } from '@/sanity/lib/queries';
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 import { handleError } from './client-utils';
 import { ContactFormProvider } from './context/ContactFormContext';
+import { ebGaramond, oswald } from './fonts';
 
 /**
  * Generate metadata for the page.
@@ -63,10 +64,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	const { isEnabled: isDraftMode } = await draftMode();
 
 	return (
-		<html lang="en" className={`${inter.variable} bg-white text-black`}>
+		<html
+			lang="en"
+			className={`${inter.variable} ${ebGaramond.variable} ${oswald.variable} bg-white text-black`}
+		>
 			<body>
 				<ReCaptchaProvider>
-					<section className="min-h-screen pt-24">
+					<section className="min-h-screen pt-0">
 						{/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
 						<Toaster />
 						{isDraftMode && (
