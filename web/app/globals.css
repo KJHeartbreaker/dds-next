@@ -1,1 +1,193 @@
 @import 'tailwindcss';
+
+:root {
+	--brown: #2e1b0c;
+	--tan: #e3c4a8;
+	--dark-blue: #3d547a;
+	--blue: #7c8cc4;
+	--light-blue: #b4d4ec;
+	--red: #ff4949;
+	--black: #000;
+	--white: #fff;
+
+	/* Typography */
+	--unit: 16;
+	--font-micro-size: calc(10 / var(--unit) * 1rem);
+	--font-micro-line-height: calc(12 / 10);
+	--font-small-size: calc(14 / var(--unit) * 1rem);
+	--font-small-line-height: calc(21 / 14);
+	--font-base-size: 1em;
+	--font-base-line-height: calc(24 / var(--unit));
+	--font-large-size: calc(18 / var(--unit) * 1rem);
+	--font-large-line-height: calc(27 / 18);
+
+	--font-title3-size: calc(21 / var(--unit) * 1rem);
+	--font-title3-line-height: calc(30 / 21);
+	--font-title2-size: calc(36 / var(--unit) * 1rem);
+	--font-title2-line-height: calc(30 / 24);
+	--font-title1-size: calc(52 / var(--unit) * 1rem);
+	--font-title1-line-height: calc(60 / 54);
+
+	--font-title3-mobile-size: calc(20 / var(--unit) * 1rem);
+	--font-title3-mobile-line-height: calc(24 / 21);
+	--font-title2-mobile-size: calc(32 / var(--unit) * 1rem);
+	--font-title2-mobile-line-height: calc(36 / 24);
+	--font-title1-mobile-size: calc(40 / var(--unit) * 1rem);
+	--font-title1-mobile-line-height: calc(48 / 48);
+}
+
+html {
+	font-size: var(--font-base-size);
+	color: var(--black);
+	font-family: 'Open Sans', serif;
+	font-display: auto;
+	font-style: normal;
+	font-weight: 400;
+}
+
+p,
+li,
+time {
+	font-size: 1.2em;
+	line-height: var(--font-base-line-height);
+	font-weight: 100;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: var(--font-oswald), 'Oswald', sans-serif;
+	font-weight: 400;
+	margin: 0;
+}
+
+h1 {
+	font-size: var(--font-title1-mobile-size);
+	line-height: var(--font-title1-line-height);
+	font-weight: 600;
+}
+@media (min-width: 640px) {
+	h1 {
+		font-size: var(--font-title1-size);
+		line-height: var(--font-title1-line-height);
+	}
+}
+
+h2 {
+	font-size: var(--font-title2-mobile-size);
+	line-height: var(--font-title2-line-height);
+}
+@media (min-width: 640px) {
+	h2 {
+		font-size: var(--font-title2-size);
+		line-height: var(--font-title2-line-height);
+	}
+}
+
+h3 {
+	font-size: var(--font-title3-mobile-size);
+	line-height: var(--font-title3-line-height);
+}
+@media (min-width: 640px) {
+	h3 {
+		font-size: var(--font-title3-size);
+		line-height: var(--font-title3-line-height);
+	}
+}
+
+a {
+	color: var(--black);
+	text-decoration-skip-ink: none;
+	cursor: pointer;
+}
+a:hover {
+	color: var(--blue);
+}
+
+strong {
+	font-family: var(--font-oswald), 'Oswald', sans-serif;
+	font-weight: 700;
+}
+
+.center {
+	text-align: center;
+}
+
+a.button,
+button {
+	cursor: pointer;
+	background-color: var(--dark-blue);
+	color: var(--white);
+	padding: 10px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: var(--font-base-size);
+	border: none;
+	margin: 10px 0;
+	box-sizing: border-box;
+	transition: 0.2s;
+	display: block;
+	width: fit-content;
+}
+a.button:hover,
+button:hover {
+	background-color: var(--light-blue);
+	color: #000;
+}
+
+html,
+body {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	-webkit-overflow-scrolling: touch;
+}
+
+* {
+	&:focus {
+		outline: var(--light-blue) auto 1px;
+	}
+}
+
+.logo-top {
+	font-family: var(--font-eb-garamond), 'EB Garamond', serif;
+	font-size: 1.6em;
+	text-transform: uppercase;
+	line-height: 0.9;
+	letter-spacing: 0.2em;
+	margin: 0;
+}
+@media (min-width: 640px) {
+	.logo-top {
+		font-size: 2em;
+	}
+}
+.logo-bottom {
+	font-family: var(--font-oswald), 'Oswald', sans-serif;
+	font-weight: 700;
+	font-size: 1em;
+	text-transform: uppercase;
+	margin: 0;
+}
+@media (min-width: 640px) {
+	.logo-bottom {
+		font-size: 1.3em;
+	}
+}
+
+.nav-link {
+	font-family: var(--font-oswald), Oswald, sans-serif !important;
+	font-weight: 400 !important;
+}
+
+.unstyled,
+.unstyled:focus,
+.unstyled:active {
+	/* all: unset;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center; */
+	margin: 0;
+	background-color: transparent;
+}

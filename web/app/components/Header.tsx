@@ -1,66 +1,39 @@
 'use client';
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-
-type Page = {
-	_id: string;
-	title: string | null;
-	slug: string;
-};
-
-function Navigation({ pages }: { pages: Page[] }) {
-	return (
-		<nav>
-			<ul
-				role="list"
-				className="flex items-center gap-4 md:gap-6 leading-5 text-sm md:text-base tracking-tight font-normal"
-			>
-				{pages?.map((page: Page) => (
-					<li key={page._id}>
-						<Link
-							href={`/${page.slug}`}
-							className="hover:text-red-500 transition-colors"
-						>
-							{page.title}
-						</Link>
-					</li>
-				))}
-			</ul>
-		</nav>
-	);
-}
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import Logo from './Logo';
+import PrimaryNavigation from './PrimaryNavigation';
+import MobileMenu from './MobileMenu';
 
 export default function Header() {
-	const [pages, setPages] = useState<Page[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
+	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const [pendingNavigation, setPendingNavigation] = useState<string | null>(null);
+	const pathname = usePathname();
 
 	useEffect(() => {
-		async function fetchPages() {
-			try {
-				const response = await fetch('/api/pages');
-				if (!response.ok) throw new Error('Failed to fetch pages');
-				const { data } = await response.json();
-				setPages(data || []);
-			} catch (error) {
-				console.error('Error fetching pages:', error);
-			} finally {
-				setIsLoading(false);
-			}
+		if (!mobileMenuOpen || !pendingNavigation) return;
+		if (pathname === pendingNavigation) {
+			setMobileMenuOpen(false);
+			setPendingNavigation(null);
 		}
-
-		fetchPages();
-	}, []);
+	}, [pathname, mobileMenuOpen, pendingNavigation]);
 
 	return (
-		<header className="fixed z-50 h-24 inset-0 bg-white/80 flex items-center backdrop-blur-lg">
-			<div className="container py-6 sm:px-6">
-				<div className="flex items-center justify-between gap-5">
-					{isLoading ? (
-						<div className="h-6 w-48 bg-gray-200 animate-pulse rounded" />
-					) : (
-						<Navigation pages={pages} />
-					)}
+		<header className="sticky top-0 left-0 right-0 z-50 bg-white">
+			<div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-[1280px] xl:max-w-[1440px] 2xl:max-w-[1600px]">
+				<div className="grid grid-cols-1 sm:grid-cols-[250px_1fr] sm:grid-rows-[90px] h-[70px] sm:h-[100px] relative">
+					<Logo
+						setPendingNavigation={setPendingNavigation}
+						mobileMenuOpen={mobileMenuOpen}
+					/>
+					<PrimaryNavigation />
+					<MobileMenu
+						open={mobileMenuOpen}
+						setOpen={setMobileMenuOpen}
+						pendingNavigation={pendingNavigation}
+						setPendingNavigation={setPendingNavigation}
+					/>
 				</div>
 			</div>
 		</header>
